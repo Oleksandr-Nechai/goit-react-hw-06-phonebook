@@ -11,7 +11,7 @@ const baseContacts = [
 
 const items = createReducer(baseContacts, {
   [phonebookActions.addContact]: (state, { payload }) => {
-    if (state.find(contact => contact.name === payload.name)) {
+    if (state.some(contact => contact.name.toUpperCase() === payload.name.toUpperCase())) {
       alert(`Контакт ${payload.name} уже существует!`);
       return;
     } else {

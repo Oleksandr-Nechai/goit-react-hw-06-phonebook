@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import phonebookActions from '../redux/actions';
+import phonebookActions from '../../redux/actions';
 import styles from './ContactForm.module.css';
 
 function ContactForm({ onSubmit }) {

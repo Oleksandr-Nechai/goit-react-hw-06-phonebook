@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import phonebookActions from '../redux/actions';
+import phonebookActions from '../../redux/actions';
 import styles from './Filter.module.css';
 
 const Filter = ({ onChange, value }) => {
