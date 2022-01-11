@@ -1,64 +1,79 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import phonebookActions from '../redux/actions';
 import styles from './ContactForm.module.css';
-import PropTypes from 'prop-types';
 
-const initialState = {
-  name: '',
-  number: '',
-};
-const ContactForm = props => {
-  const [data, setData] = useState(initialState);
+function ContactForm({ onSubmit }) {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  const onHandleSubmit = e => {
+  const handleInput = e => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        return;
+    }
+  };
+
+  const handleSubmit = e => {
     e.preventDefault();
-    props.onSubmitContact(data);
-    setData(initialState);
-  };
-  const onHandleChange = ({ target }) => {
-    const { name, value } = target;
-    setData({ ...data, [name]: value });
+
+    onSubmit({ name, number });
+
+    reset();
   };
 
-  const { name, number } = data;
+  const reset = () => {
+    setName('');
+    setNumber('');
+  };
 
   return (
-    <form onSubmit={onHandleSubmit} className={styles.form}>
+    <form onSubmit={handleSubmit} className={styles.form}>
       <label className={styles.label}>
         <span className={styles.message}>Name</span>
         <input
           type="text"
-          onChange={onHandleChange}
           name="name"
           value={name}
-          className={styles.input}
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+          title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+          onChange={handleInput}
           required
+          placeholder="add name..."
+          className={styles.input}
         />
       </label>
-
       <label className={styles.label}>
-        <span className={styles.message}>Number</span>
+        <span className={styles.message}>Phone number</span>
         <input
           type="tel"
-          value={number}
-          onChange={onHandleChange}
           name="number"
-          className={styles.input}
+          value={number}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
+          onChange={handleInput}
           required
+          placeholder="add number..."
+          className={styles.input}
         />
       </label>
-
-      <button type="submit" className={styles.button}>
+      <button type="submit" className={styles.button} title="Добавить новый контакт">
         Add contact
       </button>
     </form>
   );
-};
+}
 
-ContactForm.propTypes = {
-  onSubmitContact: PropTypes.func.isRequired,
-};
-export default ContactForm;
+const mapDispatchToProps = dispatch => ({
+  onSubmit: value => dispatch(phonebookActions.addContact(value)),
+});
+
+export default connect(null, mapDispatchToProps)(ContactForm);

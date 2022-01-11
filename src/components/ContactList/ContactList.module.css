@@ -1,11 +1,18 @@
 .list {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 10px;
   font-size: 20px;
   font-weight: 500;
   color: white;
+  display: flex;
+  max-width: 350px;
+  flex-wrap: wrap;
+}
+.list_li {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+  display: flex;
 }
 
 .button {
@@ -17,7 +24,12 @@
   color: #f0f8ff;
   cursor: pointer;
   font-weight: 500;
+  margin-left: 15px;
 }
 .button:hover {
   background-color: red;
+}
+
+.span {
+  margin-left: 25px;
 }
