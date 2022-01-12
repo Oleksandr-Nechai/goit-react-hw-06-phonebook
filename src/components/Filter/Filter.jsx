@@ -1,9 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilter } from '../../redux/selectors';
 import phonebookActions from '../../redux/actions';
 import styles from './Filter.module.css';
 
-const Filter = ({ onChange, value }) => {
+const Filter = () => {
+  const dispatch = useDispatch();
+  const onChange = event => dispatch(phonebookActions.filterContacts(event.target.value));
+  const value = useSelector(getFilter);
+
   return (
     <div className={styles.section}>
       <label>
@@ -21,12 +26,4 @@ const Filter = ({ onChange, value }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  value: state.phonebook.filter,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onChange: event => dispatch(phonebookActions.filterContacts(event.target.value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default Filter;
